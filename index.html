@@ -110,7 +110,7 @@
     }
 
     function sendDataToGoogleSheet(data) {
-        const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';  // Replace with the Web App URL from the Apps Script
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbz6IRJ9yLI5sN8Mc7VF8A9pD6fbj0_k25Dzb07CqFD_Z0Zh573E3WoDOUR1-Po1PXQN/exec';
         fetch(scriptURL, {
             method: 'POST',
             body: JSON.stringify(data),
