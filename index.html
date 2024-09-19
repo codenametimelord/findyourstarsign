@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Sign Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Find Your Star Sign</h1>
+    <form id="starSignForm">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" required>
+
+        <button type="button" onclick="calculateStarSign()">Submit</button>
+    </form>
+    <div id="result"></div>
+</div>
+
+<script>
+    function calculateStarSign() {
+        const name = document.getElementById("name").value;
+        const dob = new Date(document.getElementById("dob").value);
+        const month = dob.getMonth() + 1;
+        const day = dob.getDate();
+
+        let starSign = "";
+        if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) {
+            starSign = "Aquarius";
+        } else if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) {
+            starSign = "Pisces";
+        } else if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) {
+            starSign = "Aries";
+        } else if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) {
+            starSign = "Taurus";
+        } else if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) {
+            starSign = "Gemini";
+        } else if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) {
+            starSign = "Cancer";
+        } else if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) {
+            starSign = "Leo";
+        } else if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) {
+            starSign = "Virgo";
+        } else if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) {
+            starSign = "Libra";
+        } else if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) {
+            starSign = "Scorpio";
+        } else if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) {
+            starSign = "Sagittarius";
+        } else if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) {
+            starSign = "Capricorn";
+        }
+
+        const luckyAnimal = getRandomLuckyAnimal();
+        const favoriteColor = getRandomFavoriteColor();
+
+        const result = `Name: ${name} <br> Star Sign: ${starSign} <br> Lucky Animal: ${luckyAnimal} <br> Favorite Color: ${favoriteColor}`;
+        document.getElementById("result").innerHTML = result;
+
+        sendEmail(name, dob, starSign, luckyAnimal, favoriteColor);
+    }
+
+    function getRandomLuckyAnimal() {
+        const animals = ["Cat", "Dog", "Lion", "Elephant", "Tiger", "Dolphin"];
+        return animals[Math.floor(Math.random() * animals.length)];
+    }
+
+    function getRandomFavoriteColor() {
+        const colors = ["Blue", "Red", "Green", "Yellow", "Purple", "Orange"];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function sendEmail(name, dob, starSign, luckyAnimal, favoriteColor) {
+        const email = "your-email@example.com";  // Replace with your email address
+        const subject = `New Star Sign Entry from ${name}`;
+        const body = `Name: ${name}%0D%0A
+                      Date of Birth: ${dob.toDateString()}%0D%0A
+                      Star Sign: ${starSign}%0D%0A
+                      Lucky Animal: ${luckyAnimal}%0D%0A
+                      Favorite Color: ${favoriteColor}`;
+
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    }
+</script>
+
+</body>
+</html>
