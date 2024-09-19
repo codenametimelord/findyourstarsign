@@ -32,16 +32,12 @@
 
 <div class="container">
     <h1>Find Your Star Sign</h1>
-    <form id="starSignForm" action="https://formspree.io/f/mwpedkag" method="POST">
+    <form id="starSignForm">
         <label for="name">Your Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" required>
 
         <label for="dob">Date of Birth:</label>
-        <input type="date" id="dob" name="dob" required>
-
-        <input type="hidden" id="starSign" name="starSign">
-        <input type="hidden" id="luckyAnimal" name="luckyAnimal">
-        <input type="hidden" id="favoriteColor" name="favoriteColor">
+        <input type="date" id="dob" required>
 
         <button type="button" onclick="calculateStarSign()">Submit</button>
     </form>
@@ -85,15 +81,22 @@
         const luckyAnimal = getRandomLuckyAnimal();
         const favoriteColor = getRandomFavoriteColor();
 
-        document.getElementById("starSign").value = starSign;
-        document.getElementById("luckyAnimal").value = luckyAnimal;
-        document.getElementById("favoriteColor").value = favoriteColor;
+        const data = {
+            name: name,
+            dob: dob.toISOString().slice(0, 10),
+            starSign: starSign,
+            luckyAnimal: luckyAnimal,
+            favoriteColor: favoriteColor
+        };
 
-        const result = `Name: ${name} <br> Star Sign: ${starSign} <br> Lucky Animal: ${luckyAnimal} <br> Favorite Color: ${favoriteColor}`;
-        document.getElementById("result").innerHTML = result;
+        document.getElementById("result").innerHTML = `
+            Name: ${name} <br>
+            Star Sign: ${starSign} <br>
+            Lucky Animal: ${luckyAnimal} <br>
+            Favorite Color: ${favoriteColor}
+        `;
 
-        // Automatically submit the form
-        document.getElementById("starSignForm").submit();
+        sendDataToGoogleSheet(data);
     }
 
     function getRandomLuckyAnimal() {
@@ -104,6 +107,20 @@
     function getRandomFavoriteColor() {
         const colors = ["Blue", "Red", "Green", "Yellow", "Purple", "Orange"];
         return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function sendDataToGoogleSheet(data) {
+        const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';  // Replace with the Web App URL from the Apps Script
+        fetch(scriptURL, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.text())
+        .then(result => console.log('Success:', result))
+        .catch(error => console.error('Error:', error));
     }
 </script>
 
